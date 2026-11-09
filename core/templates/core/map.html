@@ -1,0 +1,734 @@
+{% extends 'core/base.html' %}
+{% load static i18n %}
+
+{% block title %}{% trans "Interactive Map" %} - MauriZHAP{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* START: Styles for Symbol Placement Feature */
+
+/* Change map cursor when in placement mode */
+#map.placing-mode {
+    cursor: crosshair !important;
+}
+
+/* Style for the active placement button */
+#toggle-placement-btn.active {
+    background-color: #0d6efd; /* Bootstrap primary color */
+    color: white;
+    border-color: #0d6efd;
+}
+
+/* Style for the custom icons we place on the map */
+.custom-symbol-icon {
+    font-size: 24px;
+    text-shadow: 0 0 3px #000;
+    text-align: center;
+    line-height: 1;
+}
+/* END: Styles for Symbol Placement Feature */
+</style>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<link rel="stylesheet" href="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css" />
+<link rel="stylesheet" href="{% static 'core/css/enhanced-map.css' %}" />
+<link rel="stylesheet" href="{% static 'core/css/dashboard.css' %}"/>
+{% endblock %}
+
+{% block content %}
+<!-- Header Section -->
+<section class="detail-header">
+    <div class="container">
+        <h1 class="detail-title" data-aos="fade-up">
+            <i class="fas fa-map-marked-alt"></i> {% trans "Advanced Interactive Map" %}
+        </h1>
+        <p class="detail-subtitle" data-aos="fade-up" data-aos-delay="200">
+            {% trans "Explore Mauritanian wetlands with advanced geographical tools" %}
+        </p>
+    </div>
+</section>
+
+<!-- Map Controls -->
+<section class="container mb-4">
+    <div class="map-controls" data-aos="fade-up">
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <label for="region-filter" class="form-label">
+                    <i class="fas fa-map-marker-alt"></i> {% trans "Filter by Wilaya" %}
+                </label>
+                <select id="region-filter" class="form-select" onchange="filterByRegion(this.value)">
+                    <option value="all">{% trans "All Wilayas" %}</option>
+                    <!-- Regions will be populated by JavaScript -->
+                </select>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label for="type-filter" class="form-label">
+                    <i class="fas fa-filter"></i> {% trans "Site Type" %}
+                </label>
+                <select id="type-filter" class="form-select" onchange="filterByType(this.value)">
+                    <option value="all">{% trans "All Sites" %}</option>
+                    <option value="ramsar">{% trans "Ramsar Sites Only" %}</option>
+                    <option value="wetland">{% trans "Local Wetlands" %}</option>
+                </select>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label for="site-search" class="form-label">
+                    <i class="fas fa-search"></i> {% trans "Quick Search" %}
+                </label>
+                <input type="text" id="site-search" class="form-control" placeholder="{% trans 'Site name or wilaya...' %}">
+            </div>
+        </div>
+        
+        <!-- Quick Filter Buttons -->
+        <div class="filter-buttons">
+            <button class="filter-btn active" onclick="showAllSites()">
+                <i class="fas fa-globe"></i> {% trans "All" %}
+            </button>
+            <button class="filter-btn" onclick="showRamsarOnly()">
+                <i class="fas fa-star"></i> {% trans "Ramsar Sites" %}
+            </button>
+            <button class="filter-btn" onclick="showByImportance()">
+                <i class="fas fa-exclamation-triangle"></i> {% trans "Priority" %}
+            </button>
+            <button class="filter-btn" onclick="toggleHeatmap()">
+                <i class="fas fa-fire"></i> {% trans "Heatmap" %}
+            </button>
+        </div>
+                <!-- START: New Feature for Placing Symbols -->
+        <div class="row mt-3 pt-3 border-top">
+            <div class="col-md-4 mb-3">
+                <label for="symbol-selector" class="form-label">
+                    <i class="fas fa-icons"></i> {% trans "Choose Symbol" %}
+                </label>
+                <select id="symbol-selector" class="form-select">
+                    <option value="fas fa-map-pin text-danger">{% trans "Red Pin" %}</option>
+                    <option value="fas fa-star text-warning">{% trans "Star" %}</option>
+                    <option value="fas fa-exclamation-triangle text-danger">{% trans "Warning" %}</option>
+                    <option value="fas fa-tree text-success">{% trans "Tree / Flora" %}</option>
+                    <option value="fas fa-paw text-primary">{% trans "Fauna" %}</option>
+                    <option value="fas fa-tint text-info">{% trans "Water Point" %}</option>
+                </select>
+            </div>
+            <div class="col-md-8 mb-3 d-flex align-items-end">
+                <button id="toggle-placement-btn" class="btn btn-outline-primary w-100">
+                    <i class="fas fa-mouse-pointer"></i> {% trans "Place Symbol on Map" %}
+                </button>
+            </div>
+        </div>
+        <!-- END: New Feature for Placing Symbols -->
+    </div>
+</section>
+
+<!-- Map Container -->
+<section class="container mb-5">
+    <div class="row">
+        <div class="col-12">
+            <div class="map-container" data-aos="fade-up">
+                <div id="map"></div>
+                <div id="map-loading" class="map-loading" style="display: none;">
+                    <div class="spinner"></div>
+                    <p>{% trans "Loading map..." %}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Statistics Section -->
+<section class="container mb-5">
+    <div class="row text-center" data-aos="fade-up">
+        <div class="col-md-3 col-6 mb-4">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="stat-number" data-count="4">0</div>
+                <div class="stat-label">{% trans "Ramsar Sites" %}</div>
+            </div>
+        </div>
+        <div class="col-md-3 col-6 mb-4">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-tint"></i>
+                </div>
+                <div class="stat-number" data-count="{{ total_sites }}">0</div>
+                <div class="stat-label">{% trans "Wetlands" %}</div>
+            </div>
+        </div>
+        <div class="col-md-3 col-6 mb-4">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-map"></i>
+                </div>
+                <div class="stat-number" data-count="{{ total_regions }}">0</div>
+                <div class="stat-label">{% trans "Wilayas Covered" %}</div>
+            </div>
+        </div>
+        <div class="col-md-3 col-6 mb-4">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-leaf"></i>
+                </div>
+                <div class="stat-number" data-count="1240600">0</div>
+                <div class="stat-label">{% trans "Hectares Protected" %}</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+<!-- PowerBI Dashboard Placeholder -->
+<section class="container mb-5">
+    <div class="dashboard-container" data-aos="fade-up">
+        <div class="row">
+            <div class="col-12">
+                <div class="card dashboard-card">
+                    <div class="card-header dashboard-header d-flex justify-content-between align-items-center">
+                        <div>
+                            <h3 class="dashboard-title mb-0">
+                                <i class="fas fa-chart-line"></i> {% trans "Hybrid Analytics Dashboard" %}
+                            </h3>
+                            <p class="dashboard-subtitle mb-0">{% trans "Fixed analyses and dynamic exploration of Mauritanian ecosystems" %}</p>
+                        </div>
+                        <div class="dashboard-controls">
+                            <button class="btn btn-outline-light btn-sm me-2" onclick="dashboard.refreshDashboard()" id="refreshBtn">
+                                <i class="fas fa-sync-alt"></i> {% trans "Refresh" %}
+                            </button>
+                            <button class="btn btn-light btn-sm" onclick="dashboard.toggleFullscreen()" id="fullscreenBtn">
+                                <i class="fas fa-expand"></i> {% trans "Fullscreen" %}
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="card-body dashboard-body p-0">
+                        
+                        <!-- ============================================================ -->
+                        <!-- SECTION STATIQUE - GRAPHIQUES FIXES -->
+                        <!-- ============================================================ -->
+                        <div class="static-charts-section">
+                            <div class="section-title">
+                                <h3><i class="fas fa-chart-area text-gradient"></i> {% trans "Key Analyses" %}</h3>
+                                <p>{% trans "Essential visualizations of environmental data" %}</p>
+                            </div>
+                            
+                            <!-- Statistiques de résumé -->
+                            <div class="row mb-4">
+                                <div class="col-xl-3 col-lg-6 col-md-6 mb-3">
+                                    <div class="chart-card" style="--chart-color: linear-gradient(135deg, #667eea, #764ba2);">
+                                        <div class="text-center">
+                                            <div class="display-4 font-weight-bold text-primary" id="totalSites">0</div>
+                                            <h6 class="text-muted">{% trans "Wetland Sites" %}</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-md-6 mb-3">
+                                    <div class="chart-card" style="--chart-color: linear-gradient(135deg, #f093fb, #f5576c);">
+                                        <div class="text-center">
+                                            <div class="display-4 font-weight-bold text-warning" id="ramsarSites">0</div>
+                                            <h6 class="text-muted">{% trans "Ramsar Sites" %}</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-md-6 mb-3">
+                                    <div class="chart-card" style="--chart-color: linear-gradient(135deg, #11998e, #38ef7d);">
+                                        <div class="text-center">
+                                            <div class="display-4 font-weight-bold text-success" id="totalSpecies">0</div>
+                                            <h6 class="text-muted">{% trans "Species Recorded" %}</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-md-6 mb-3">
+                                    <div class="chart-card" style="--chart-color: linear-gradient(135deg, #4facfe, #00f2fe);">
+                                        <div class="text-center">
+                                            <div class="display-4 font-weight-bold text-info" id="totalObservations">0</div>
+                                            <h6 class="text-muted">{% trans "Total Observations" %}</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Grille des graphiques fixes -->
+                            <div class="chart-grid">
+                                <!-- Évolution des espèces -->
+                                <div class="chart-card evolution">
+                                    <div class="chart-header">
+                                        <h5 class="chart-title">
+                                            <i class="fas fa-chart-line"></i> {% trans "Biodiversity Evolution" %}
+                                        </h5>
+                                        <div class="chart-controls">
+                                            <select class="form-select form-select-sm" onchange="dashboard.updateBiodiversityChart(this.value)">
+                                                <option value="monthly">{% trans "Monthly" %}</option>
+                                                <option value="yearly" selected>{% trans "Yearly" %}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="chart-container">
+                                        <canvas id="speciesEvolutionChart"></canvas>
+                                        <div class="chart-loading" style="display: none;">
+                                            <div class="chart-spinner"></div>
+                                            <p>{% trans "Loading..." %}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Distribution par région -->
+                                <div class="chart-card distribution">
+                                    <div class="chart-header">
+                                        <h5 class="chart-title">
+                                            <i class="fas fa-map"></i> {% trans "Distribution by Wilaya" %}
+                                        </h5>
+                                    </div>
+                                    <div class="chart-container">
+                                        <canvas id="sitesDistributionChart"></canvas>
+                                        <div class="chart-loading" style="display: none;">
+                                            <div class="chart-spinner"></div>
+                                            <p>{% trans "Loading..." %}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Répartition des espèces -->
+                                <div class="chart-card species fullscreen-only">
+                                    <div class="chart-header">
+                                        <h5 class="chart-title">
+                                            <i class="fas fa-chart-pie"></i> {% trans "Taxonomic Groups" %}
+                                        </h5>
+                                    </div>
+                                    <div class="chart-container">
+                                        <canvas id="speciesGroupChart"></canvas>
+                                        <div class="chart-loading" style="display: none;">
+                                            <div class="chart-spinner"></div>
+                                            <p>{% trans "Loading..." %}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Analyse des menaces -->
+                                <div class="chart-card threats fullscreen-only">
+                                    <div class="chart-header">
+                                        <h5 class="chart-title">
+                                            <i class="fas fa-exclamation-triangle"></i> {% trans "Environmental Threats" %}
+                                        </h5>
+                                    </div>
+                                    <div class="chart-container">
+                                        <canvas id="threatsChart"></canvas>
+                                        <div class="chart-loading" style="display: none;">
+                                            <div class="chart-spinner"></div>
+                                            <p>{% trans "Loading..." %}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- État de conservation (pleine largeur) -->
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="chart-card conservation fullscreen-only">
+                                        <div class="chart-header">
+                                            <h5 class="chart-title">
+                                                <i class="fas fa-leaf"></i> {% trans "Conservation Status by Wilaya" %}
+                                            </h5>
+                                        </div>
+                                        <div class="chart-container" style="height: 250px;">
+                                            <canvas id="conservationChart"></canvas>
+                                            <div class="chart-loading" style="display: none;">
+                                                <div class="chart-spinner"></div>
+                                                <p>{% trans "Loading..." %}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- ============================================================ -->
+                        <!-- SECTION DYNAMIQUE - EXPLORATION INTERACTIVE -->
+                        <!-- ============================================================ -->
+                        <div class="dynamic-section">
+                            <div class="data-explorer">
+                                <div class="explorer-header">
+                                    <h3 class="explorer-title">
+                                        <i class="fas fa-search-plus text-gradient"></i> {% trans "Dynamic Data Exploration" %}
+                                    </h3>
+                                    <p class="explorer-subtitle">
+                                        {% trans "Select your data, cross-reference information, and generate your own visualizations" %}
+                                    </p>
+                                </div>
+                                
+                                <!-- Sélection des sources de données -->
+                                <div class="mb-4">
+                                    <h5><i class="fas fa-database"></i> {% trans "1. Choose your data source" %}</h5>
+                                    <div class="data-source-grid" id="dataSourceGrid">
+                                        <!-- Les sources seront chargées dynamiquement -->
+                                        <div class="text-center py-4">
+                                            <div class="spinner-border text-primary" role="status">
+                                                <span class="visually-hidden">{% trans "Loading..." %}</span>
+                                            </div>
+                                            <p class="mt-2">{% trans "Loading data sources..." %}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Configuration des champs -->
+                                <div class="data-selection-panel">
+                                    <div class="selection-group">
+                                        <label class="selection-label">
+                                            <i class="fas fa-arrows-alt-h"></i> {% trans "X-axis (Dimension)" %}
+                                        </label>
+                                        <select class="selection-control" id="xFieldSelect" >
+                                            <option value="">{% trans "-- Select a source first --" %}</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="selection-group">
+                                        <label class="selection-label">
+                                            <i class="fas fa-arrows-alt-v"></i> {% trans "Y-axis (Metric)" %}
+                                        </label>
+                                        <select class="selection-control" id="yFieldSelect" >
+                                            <option value="">{% trans "-- Select a source first --" %}</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="selection-group">
+                                        <label class="selection-label">
+                                            <i class="fas fa-layer-group"></i> {% trans "Group by (Optional)" %}
+                                        </label>
+                                        <select class="selection-control" id="groupBySelect" >
+                                            <option value="">{% trans "-- No grouping --" %}</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="selection-group">
+                                        <label class="selection-label">
+                                            <i class="fas fa-filter"></i> {% trans "Filters (Optional)" %}
+                                        </label>
+                                        <input type="text" class="selection-control" id="filterInput" placeholder="{% trans 'Advanced filters...' %}" >
+                                    </div>
+                                </div>
+                                
+                                <!-- Sélection du type de visualisation -->
+                                <div class="visualization-controls">
+                                    <h5><i class="fas fa-chart-bar"></i> {% trans "2. Choose your visualization type" %}</h5>
+                                    
+                                    <div class="viz-type-selector">
+                                        <div class="viz-type-btn active" data-type="bar">
+                                            <div class="viz-type-icon"><i class="fas fa-chart-bar"></i></div>
+                                            <div class="viz-type-label">{% trans "Bar" %}</div>
+                                        </div>
+                                        <div class="viz-type-btn" data-type="line">
+                                            <div class="viz-type-icon"><i class="fas fa-chart-line"></i></div>
+                                            <div class="viz-type-label">{% trans "Line" %}</div>
+                                        </div>
+                                        <div class="viz-type-btn" data-type="pie">
+                                            <div class="viz-type-icon"><i class="fas fa-chart-pie"></i></div>
+                                            <div class="viz-type-label">{% trans "Pie" %}</div>
+                                        </div>
+                                        <div class="viz-type-btn" data-type="doughnut">
+                                            <div class="viz-type-icon"><i class="fas fa-circle-notch"></i></div>
+                                            <div class="viz-type-label">{% trans "Doughnut" %}</div>
+                                        </div>
+                                        <div class="viz-type-btn" data-type="table">
+                                            <div class="viz-type-icon"><i class="fas fa-table"></i></div>
+                                            <div class="viz-type-label">{% trans "Table" %}</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <button class="generate-btn" id="generateVisualization" disabled>
+                                        <i class="fas fa-magic"></i> {% trans "Generate Visualization" %}
+                                    </button>
+                                </div>
+                                
+                                <!-- Résultat dynamique -->
+                                <div class="dynamic-result" id="dynamicResult" style="display: none;">
+                                    <div class="result-header">
+                                        <h5 class="result-title" id="resultTitle">{% trans "Exploration Result" %}</h5>
+                                        <div class="result-actions">
+                                            <button class="action-btn export-btn" data-format="png">
+                                                <i class="fas fa-download"></i> PNG
+                                            </button>
+                                            <button class="action-btn export-btn" data-format="csv">
+                                                <i class="fas fa-file-csv"></i> CSV
+                                            </button>
+
+                                        </div>
+                                    </div>
+                                    <div class="result-content">
+                                        <canvas id="dynamicChart" style="display: none;"></canvas>
+                                        <div id="dynamicTable" style="display: none;"></div>
+                                        <div class="chart-loading" style="display: none;">
+                                            <div class="chart-spinner"></div>
+                                            <p>{% trans "Generating..." %}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script src="{% static 'core/js/dashboard.js' %}"></script>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
+<script src="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js"></script>
+<script src="{% static 'core/js/enhanced-map.js' %}"></script>
+
+<script>
+    // Initialize enhanced map with site data
+    document.addEventListener('DOMContentLoaded', function() {
+        // Create a hidden element with site data for the map
+        const sitesData = [
+            {% for site in sites %}
+                {% if site.geometry %}
+                {
+                    id: {{ site.id }},
+                    name: "{{ site.name|escapejs }}",
+                    region: "{{ site.region|default:'N/A'|escapejs }}",
+                    commune: "{{ site.commune|default:'N/A'|escapejs }}",
+                    geometry: {{ site.geometry.json|safe }},
+                    isRamsar: {{ site.is_ramsar_site|yesno:"true,false" }}
+                },
+                {% endif %}
+            {% endfor %}
+        ];
+        
+        // Create a hidden element to store the data
+        const sitesDataElement = document.createElement('div');
+        sitesDataElement.id = 'sites-data';
+        sitesDataElement.setAttribute('data-sites', JSON.stringify(sitesData));
+        sitesDataElement.style.display = 'none';
+        document.body.appendChild(sitesDataElement);
+        
+        // Show loading
+        document.getElementById('map-loading').style.display = 'block';
+        
+        // Initialize the enhanced map
+        setTimeout(() => {
+            initializeMap();
+            document.getElementById('map-loading').style.display = 'none';
+            
+            // --- START: New Symbol Placement Feature ---
+            const toggleBtn = document.getElementById('toggle-placement-btn');
+            const symbolSelector = document.getElementById('symbol-selector');
+            const mapContainer = document.getElementById('map');
+            
+            let isPlacingSymbol = false;
+            let userSymbolsLayer = L.layerGroup().addTo(map); // A layer for user-placed symbols
+
+            toggleBtn.addEventListener('click', () => {
+                isPlacingSymbol = !isPlacingSymbol; // Toggle the mode
+                
+                if (isPlacingSymbol) {
+                    toggleBtn.classList.add('active');
+                    toggleBtn.innerHTML = `<i class="fas fa-times"></i> {% trans "Cancel Placement" %}`;
+                    mapContainer.classList.add('placing-mode');
+                } else {
+                    toggleBtn.classList.remove('active');
+                    toggleBtn.innerHTML = `<i class="fas fa-mouse-pointer"></i> {% trans "Place Symbol on Map" %}`;
+                    mapContainer.classList.remove('placing-mode');
+                }
+            });
+
+            map.on('click', function(e) {
+                if (!isPlacingSymbol) {
+                    return; // Do nothing if not in placement mode
+                }
+
+                const selectedSymbolClasses = symbolSelector.value;
+                const latlng = e.latlng;
+
+                // Create a custom icon using Leaflet's DivIcon
+                const customIcon = L.divIcon({
+                    html: `<i class="${selectedSymbolClasses}"></i>`,
+                    className: 'custom-symbol-icon',
+                    iconSize: [24, 24],
+                    iconAnchor: [12, 24], // Point of the icon which will correspond to marker's location
+                    popupAnchor: [0, -24] // Point from which the popup should open relative to the iconAnchor
+                });
+
+                // Create the marker
+                const newMarker = L.marker(latlng, { icon: customIcon });
+
+                // Add a popup to the new marker
+                newMarker.bindPopup(`<b>{% trans "Custom Symbol" %}</b><br>Lat: ${latlng.lat.toFixed(5)}<br>Lng: ${latlng.lng.toFixed(5)}`).openPopup();
+                
+                // Add the marker to our special layer
+                newMarker.addTo(userSymbolsLayer);
+
+                // Optional: Deactivate placement mode after placing one symbol
+                // If you want to place multiple symbols without clicking the button again, comment out the next line.
+                toggleBtn.click(); 
+            });
+            // --- END: New Symbol Placement Feature ---
+
+        }, 500);
+        
+        // Populate regions dropdown
+        const regionFilter = document.getElementById('region-filter');
+        const regions = [...new Set(sitesData.map(site => site.region).filter(region => region && region !== 'N/A'))];
+        
+        regions.sort().forEach(region => {
+            const option = document.createElement('option');
+            option.value = region;
+            option.textContent = region;
+            regionFilter.appendChild(option);
+        });
+        
+        // Search functionality
+        const siteSearch = document.getElementById('site-search');
+        siteSearch.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            if (searchTerm.length < 2) {
+                filterByRegion('all');
+                return;
+            }
+            
+            // Filter markers based on search
+            if (window.siteMarkers) {
+                window.siteMarkers.forEach(marker => {
+                    const site = marker._site;
+                    const matches = site.name.toLowerCase().includes(searchTerm) ||
+                                  (site.region && site.region.toLowerCase().includes(searchTerm)) ||
+                                  (site.commune && site.commune.toLowerCase().includes(searchTerm));
+                    
+                    if (matches) {
+                        if (marker._isRamsar) {
+                            overlayLayers["Sites Ramsar"].addLayer(marker);
+                        } else {
+                            overlayLayers["Zones Humides"].addLayer(marker);
+                        }
+                    } else {
+                        overlayLayers["Sites Ramsar"].removeLayer(marker);
+                        overlayLayers["Zones Humides"].removeLayer(marker);
+                    }
+                });
+            }
+        });
+        
+        // Populate featured sites
+        function updateFeaturedSites() {
+            const featuredSitesContainer = document.getElementById('featured-sites');
+            const ramsarSites = sitesData.filter(site => site.isRamsar);
+            const otherSites = sitesData.filter(site => !site.isRamsar).slice(0, 2);
+            const featuredSites = [...ramsarSites, ...otherSites];
+            
+            let sitesHTML = '';
+            
+            featuredSites.forEach((site, index) => {
+                const badgeClass = site.isRamsar ? 'badge-ramsar' : 'badge-wetland';
+                const badgeText = site.isRamsar ? "{% trans 'Ramsar Site' %}" : "{% trans 'Wetland' %}";
+                const iconClass = site.isRamsar ? 'fas fa-star' : 'fas fa-tint';
+                
+                sitesHTML += `
+                    <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="${100 + (index * 100)}">
+                        <div class="card h-100 site-card ${site.isRamsar ? 'ramsar-card' : 'wetland-card'}">
+                            <div class="card-img-top position-relative">
+                                <div class="d-flex align-items-center justify-content-center bg-gradient" style="height: 200px;">
+                                    <i class="${iconClass} fa-4x text-white"></i>
+                                </div>
+                                <span class="badge ${badgeClass} position-absolute top-0 end-0 m-2">
+                                    <i class="${iconClass}"></i> ${badgeText}
+                                </span>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">${site.name}</h5>
+                                <p class="card-text">
+                                    <i class="fas fa-map-marker-alt text-primary"></i> 
+                                    ${site.region}${site.commune && site.commune !== 'N/A' ? ', ' + site.commune : ''}
+                                </p>
+                                <div class="d-flex gap-2">
+                                    <a href="/wetland-sites/${site.id}/" class="btn btn-primary btn-sm flex-fill">
+                                        <i class="fas fa-info-circle"></i> {% trans "Details" %}
+                                    </a>
+                                    <button onclick="zoomToSite(${site.geometry.coordinates[1]}, ${site.geometry.coordinates[0]})" 
+                                            class="btn btn-outline-primary btn-sm">
+                                        <i class="fas fa-search-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            featuredSitesContainer.innerHTML = sitesHTML;
+            AOS.refresh();
+        }
+        
+        // Initial population of featured sites
+        if(document.getElementById('featured-sites')) {
+            setTimeout(updateFeaturedSites, 1000);
+        }
+        
+        // Initialize counter animations
+        const counters = document.querySelectorAll('.stat-number[data-count]');
+        counters.forEach(counter => {
+            const target = parseInt(counter.getAttribute('data-count'));
+            let current = 0;
+            const increment = target / 50;
+            
+            const updateCounter = () => {
+                if (current < target) {
+                    current += increment;
+                    counter.textContent = Math.floor(current).toLocaleString();
+                    requestAnimationFrame(updateCounter);
+                } else {
+                    counter.textContent = target.toLocaleString();
+                }
+            };
+            
+            setTimeout(updateCounter, 1000);
+        });
+    });
+    
+    // Global filter functions
+    function showAllSites() {
+        filterByType('all');
+        updateFilterButtons(0);
+    }
+    
+    function showRamsarOnly() {
+        filterByType('ramsar');
+        updateFilterButtons(1);
+    }
+    
+    function showByImportance() {
+        filterByType('ramsar');
+        updateFilterButtons(2);
+    }
+    
+    let heatmapVisible = false;
+    function toggleHeatmap() {
+        if (window.overlayLayers && window.overlayLayers["Carte de Chaleur"]) {
+            if (heatmapVisible) {
+                map.removeLayer(window.overlayLayers["Carte de Chaleur"]);
+                heatmapVisible = false;
+            } else {
+                window.overlayLayers["Carte de Chaleur"].addTo(map);
+                heatmapVisible = true;
+            }
+            updateFilterButtons(3);
+        }
+    }
+    
+    function updateFilterButtons(activeIndex) {
+        const buttons = document.querySelectorAll('.filter-btn');
+        buttons.forEach((btn, index) => {
+            if (index === activeIndex || (activeIndex === 3 && heatmapVisible)) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+    }
+</script>
+{% endblock %}

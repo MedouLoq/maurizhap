@@ -1,0 +1,9 @@
+Django==5.2.2
+django-crispy-forms==2.4
+crispy-bootstrap5==2025.6
+django-leaflet==0.32.0
+Pillow>=10.0
+asgiref==3.8.1
+sqlparse==0.5.3
+# System libraries needed by GeoDjango (install with your OS package manager):
+#   GDAL, GEOS, PROJ and the SpatiaLite extension (mod_spatialite)

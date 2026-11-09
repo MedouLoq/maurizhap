@@ -1,0 +1,1264 @@
+# ARABIC TRANSLATION (ar.po)
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR , YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-08 06:51-0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME \n"
+"Language-Team: Arabic \n"
+"Language: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+
+#: core/templates/core/base.html:64 core/templates/core/map.html:224
+#: core/templates/core/map.html:240 core/templates/core/map.html:256
+#: core/templates/core/map.html:272 core/templates/core/map.html:291
+#: core/templates/core/map.html:320
+msgid "Loading..."
+msgstr "جاري التحميل..."
+
+#: core/templates/core/base.html:75
+msgid "Toggle navigation"
+msgstr "تبديل التنقل"
+
+#: core/templates/core/base.html:107 core/templates/core/base.html:167
+msgid "Home"
+msgstr "الرئيسية"
+
+#: core/templates/core/base.html:110 core/templates/core/base.html:168
+#: core/templates/core/home.html:25 core/templates/core/map.html:175
+#: core/templates/core/wetland_sites.html:4
+#: core/templates/core/wetland_sites.html:10
+msgid "Wetland Sites"
+msgstr "مواقع الأراضي الرطبة"
+
+#: core/templates/core/base.html:113 core/templates/core/base.html:169
+msgid "Species"
+msgstr "الأنواع"
+
+#: core/templates/core/base.html:116 core/templates/core/base.html:170
+msgid "Map"
+msgstr "الخريطة"
+
+#: core/templates/core/base.html:119 core/templates/core/base.html:171
+msgid "About the map"
+msgstr "حول الخريطة"
+
+#: core/templates/core/base.html:127
+msgid "Profile"
+msgstr "الملف الشخصي"
+
+#: core/templates/core/base.html:129
+msgid "Admin"
+msgstr "المدير"
+
+#: core/templates/core/base.html:132 core/templates/core/profile.html:50
+msgid "Logout"
+msgstr "تسجيل الخروج"
+
+#: core/templates/core/base.html:137 core/templates/core/login.html:4
+#: core/templates/core/login.html:10 core/templates/core/login.html:35
+msgid "Login"
+msgstr "تسجيل الدخول"
+
+#: core/templates/core/base.html:155
+msgid "About MauriZHAP"
+msgstr "حول موري زهاب"
+
+#: core/templates/core/base.html:156
+msgid ""
+"A comprehensive database and monitoring system for Mauritania's wetlands, "
+"supporting conservation efforts and sustainable management."
+msgstr ""
+"قاعدة بيانات شاملة ونظام مراقبة للأراضي الرطبة في موريتانيا، يدعم جهود "
+"الحفاظ على البيئة والإدارة المستدامة."
+
+#: core/templates/core/base.html:165
+msgid "Quick Links"
+msgstr "روابط سريعة"
+
+#: core/templates/core/base.html:175
+msgid "Resources"
+msgstr "الموارد"
+
+#: core/templates/core/base.html:177
+msgid "Documentation"
+msgstr "التوثيق"
+
+#: core/templates/core/base.html:178
+msgid "Research Papers"
+msgstr "الأوراق البحثية"
+
+#: core/templates/core/base.html:179
+msgid "Conservation Guidelines"
+msgstr "إرشادات الحفاظ على البيئة"
+
+#: core/templates/core/base.html:180
+msgid "Data Sources"
+msgstr "مصادر البيانات"
+
+#: core/templates/core/base.html:181
+msgid "API Access"
+msgstr "الوصول إلى واجهة برمجة التطبيقات"
+
+#: core/templates/core/base.html:185
+msgid "Contact Us"
+msgstr "اتصل بنا"
+
+#: core/templates/core/base.html:187
+msgid "123 Environmental Center, Nouakchott, Mauritania"
+msgstr "123 المركز البيئي، نواكشوط، موريتانيا"
+
+#: core/templates/core/base.html:198
+msgid "All rights reserved."
+msgstr "جميع الحقوق محفوظة."
+
+#: core/templates/core/base.html:201
+msgid "Designed with"
+msgstr "مصمم بـ"
+
+#: core/templates/core/base.html:201
+msgid "for wetland conservation"
+msgstr "لحفظ الأراضي الرطبة"
+
+#: core/templates/core/home.html:5
+#, fuzzy
+#| msgid "About MauriZHAP"
+msgid "Home - MauriZHAP"
+msgstr "الرئيسية - موري زهاب"
+
+#: core/templates/core/home.html:18
+msgid ""
+"A comprehensive platform for monitoring and managing Mauritanian wetlands, "
+"supporting conservation efforts and the sustainable management of aquatic "
+"ecosystems."
+msgstr ""
+"منصة شاملة لمراقبة وإدارة الأراضي الرطبة الموريتانية، تدعم جهود الحفاظ على "
+"البيئة والإدارة المستدامة للنظم البيئية المائية."
+
+
+#: core/templates/core/home.html:22
+msgid "Explore the Map"
+msgstr "استكشف الخريطة"
+
+#: core/templates/core/home.html:44 core/templates/core/map.html:108
+#, fuzzy
+#| msgid "Wetland Sites"
+msgid "Wetlands"
+msgstr "الأراضي الرطبة"
+
+#: core/templates/core/home.html:53 core/templates/core/map.html:63
+#: core/templates/core/map.html:99 core/templates/core/map.html:183
+msgid "Ramsar Sites"
+msgstr "مواقع رامسار"
+
+#: core/templates/core/home.html:62
+#, fuzzy
+#| msgid "Species"
+msgid "Species Listed"
+msgstr "الأنواع المسجلة"
+
+#: core/templates/core/home.html:71 core/templates/core/map.html:126
+msgid "Hectares Protected"
+msgstr "هكتارات محمية"
+
+#: core/templates/core/home.html:82
+msgid "Discover Our Platform"
+msgstr "اكتشف منصتنا"
+
+#: core/templates/core/home.html:83
+msgid ""
+"MauriZHAP provides comprehensive tools and data for wetland conservation and "
+"management."
+msgstr "يوفر موري زهاب أدوات وبيانات شاملة للحفاظ على الأراضي الرطبة وإدارتها."
+
+#: core/templates/core/home.html:93
+msgid "Interactive Mapping"
+msgstr "الخرائط التفاعلية"
+
+#: core/templates/core/home.html:94
+msgid ""
+"Explore Mauritanian wetlands through our interactive mapping system with "
+"detailed information."
+msgstr ""
+"استكشف الأراضي الرطبة الموريتانية من خلال نظام الخرائط التفاعلي الخاص بنا "
+"مع معلومات مفصلة."
+
+#: core/templates/core/home.html:96
+msgid "Explore"
+msgstr "استكشف"
+
+#: core/templates/core/home.html:108
+msgid "Biodiversity Database"
+msgstr "قاعدة بيانات التنوع البيولوجي"
+
+#: core/templates/core/home.html:109
+msgid ""
+"Access comprehensive data on Mauritanian wetland species, including their "
+"conservation status."
+msgstr ""
+"احصل على بيانات شاملة عن أنواع الأراضي الرطبة الموريتانية، بما في ذلك حالة "
+"الحفاظ عليها."
+
+#: core/templates/core/home.html:111
+msgid "Discover"
+msgstr "اكتشف"
+
+#: core/templates/core/home.html:123
+msgid "Monitoring & Analysis"
+msgstr "المراقبة والتحليل"
+
+#: core/templates/core/home.html:124
+msgid ""
+"Environmental monitoring tools and analysis to support decision-making in "
+"conservation."
+msgstr "أدوات مراقبة وتحليل بيئي لدعم اتخاذ القرار في مجال الحفاظ على البيئة."
+
+#: core/templates/core/home.html:126
+msgid "Analyze"
+msgstr "تحليل"
+
+#: core/templates/core/home.html:139
+msgid "Priority Sites"
+msgstr "المواقع ذات الأولوية"
+
+#: core/templates/core/home.html:140
+msgid "Discover the most important wetland ecosystems in Mauritania"
+msgstr "اكتشف أهم النظم البيئية للأراضي الرطبة في موريتانيا"
+
+#: core/templates/core/home.html:157 core/templates/core/map.html:527
+#: core/templates/core/species_detail.html:459
+msgid "Ramsar Site"
+msgstr "موقع رامسار"
+
+#: core/templates/core/home.html:165
+msgid "Wilaya"
+msgstr "الولاية"
+
+#: core/templates/core/home.html:168
+#: core/templates/core/wetland_site_detail.html:35
+msgid "Commune"
+msgstr "البلدية"
+
+#: core/templates/core/home.html:173 core/templates/core/map.html:549
+msgid "Details"
+msgstr "التفاصيل"
+
+#: core/templates/core/home.html:184
+msgid "No featured sites available at the moment."
+msgstr "لا توجد مواقع مميزة متاحة في الوقت الحالي."
+
+#: core/templates/core/home.html:191
+msgid "View All Sites"
+msgstr "عرض كل المواقع"
+
+#: core/templates/core/home.html:202
+msgid "Contribute to Conservation"
+msgstr "ساهم في الحفاظ على البيئة"
+
+#: core/templates/core/home.html:204
+msgid ""
+"Join our efforts to protect and preserve Mauritania's precious wetland "
+"ecosystems for future generations."
+msgstr ""
+"انضم إلى جهودنا لحماية والحفاظ على النظم البيئية الثمينة للأراضي الرطبة في "
+"موريتانيا للأجيال القادمة."
+
+#: core/templates/core/home.html:208
+msgid "Learn More"
+msgstr "اعرف المزيد"
+
+#: core/templates/core/home.html:211
+msgid "Explore Now"
+msgstr "استكشف الآن"
+
+#: core/templates/core/login.html:11
+#, fuzzy
+#| msgid "About MauriZHAP"
+msgid "Welcome back to MauriZHAP"
+msgstr "مرحباً بعودتك إلى موري زهاب"
+
+#: core/templates/core/login.html:18
+msgid "Username"
+msgstr "اسم المستخدم"
+
+#: core/templates/core/login.html:21
+msgid "Enter your username"
+msgstr "أدخل اسم المستخدم الخاص بك"
+
+#: core/templates/core/login.html:26
+msgid "Password"
+msgstr "كلمة المرور"
+
+#: core/templates/core/login.html:29
+msgid "Enter your password"
+msgstr "أدخل كلمة المرور الخاصة بك"
+
+#: core/templates/core/login.html:41
+msgid "Don't have an account?"
+msgstr "ليس لديك حساب؟"
+
+#: core/templates/core/login.html:41
+msgid "Contact administrator"
+msgstr "اتصل بالمسؤول"
+
+#: core/templates/core/login.html:42
+msgid "Forgot password?"
+msgstr "هل نسيت كلمة المرور؟"
+
+#: core/templates/core/map.html:4
+msgid "Interactive Map"
+msgstr "الخريطة التفاعلية"
+
+#: core/templates/core/map.html:18
+msgid "Advanced Interactive Map"
+msgstr "خريطة تفاعلية متقدمة"
+
+#: core/templates/core/map.html:21
+msgid "Explore Mauritanian wetlands with advanced geographical tools"
+msgstr "استكشف الأراضي الرطبة الموريتانية باستخدام أدوات جغرافية متقدمة"
+
+#: core/templates/core/map.html:32
+msgid "Filter by Wilaya"
+msgstr "التصفية حسب الولاية"
+
+#: core/templates/core/map.html:35
+msgid "All Wilayas"
+msgstr "كل الولايات"
+
+#: core/templates/core/map.html:41
+msgid "Site Type"
+msgstr "نوع الموقع"
+
+#: core/templates/core/map.html:44
+#, fuzzy
+#| msgid "Wetland Sites"
+msgid "All Sites"
+msgstr "كل المواقع"
+
+#: core/templates/core/map.html:45
+msgid "Ramsar Sites Only"
+msgstr "مواقع رامسار فقط"
+
+#: core/templates/core/map.html:46
+msgid "Local Wetlands"
+msgstr "الأراضي الرطبة المحلية"
+
+#: core/templates/core/map.html:51
+msgid "Quick Search"
+msgstr "بحث سريع"
+
+#: core/templates/core/map.html:53
+msgid "Site name or wilaya..."
+msgstr "اسم الموقع أو الولاية..."
+
+#: core/templates/core/map.html:60
+msgid "All"
+msgstr "الكل"
+
+#: core/templates/core/map.html:66
+msgid "Priority"
+msgstr "الأولوية"
+
+#: core/templates/core/map.html:69
+msgid "Heatmap"
+msgstr "خريطة حرارية"
+
+#: core/templates/core/map.html:83
+#, fuzzy
+#| msgid "Loading..."
+msgid "Loading map..."
+msgstr "جاري تحميل الخريطة..."
+
+#: core/templates/core/map.html:117
+msgid "Wilayas Covered"
+msgstr "الولايات المغطاة"
+
+#: core/templates/core/map.html:144
+msgid "Hybrid Analytics Dashboard"
+msgstr "لوحة تحكم التحليلات الهجينة"
+
+#: core/templates/core/map.html:146
+msgid "Fixed analyses and dynamic exploration of Mauritanian ecosystems"
+msgstr "تحليلات ثابتة واستكشاف ديناميكي للنظم البيئية الموريتانية"
+
+#: core/templates/core/map.html:150
+msgid "Refresh"
+msgstr "تحديث"
+
+#: core/templates/core/map.html:153
+msgid "Fullscreen"
+msgstr "ملء الشاشة"
+
+#: core/templates/core/map.html:165
+msgid "Key Analyses"
+msgstr "التحليلات الرئيسية"
+
+#: core/templates/core/map.html:166
+msgid "Essential visualizations of environmental data"
+msgstr "تصورات أساسية للبيانات البيئية"
+
+#: core/templates/core/map.html:191
+#, fuzzy
+#| msgid "Species"
+msgid "Species Recorded"
+msgstr "الأنواع المسجلة"
+
+#: core/templates/core/map.html:199
+#, fuzzy
+#| msgid "for wetland conservation"
+msgid "Total Observations"
+msgstr "إجمالي المشاهدات"
+
+#: core/templates/core/map.html:211
+msgid "Biodiversity Evolution"
+msgstr "تطور التنوع البيولوجي"
+
+#: core/templates/core/map.html:215
+msgid "Monthly"
+msgstr "شهري"
+
+#: core/templates/core/map.html:216
+msgid "Yearly"
+msgstr "سنوي"
+
+#: core/templates/core/map.html:233
+msgid "Distribution by Wilaya"
+msgstr "التوزيع حسب الولاية"
+
+#: core/templates/core/map.html:249 core/templates/core/species_list.html:402
+msgid "Taxonomic Groups"
+msgstr "المجموعات التصنيفية"
+
+#: core/templates/core/map.html:265
+msgid "Environmental Threats"
+msgstr "التهديدات البيئية"
+
+#: core/templates/core/map.html:284
+#, fuzzy
+#| msgid "Conservation Guidelines"
+msgid "Conservation Status by Wilaya"
+msgstr "حالة الحفظ حسب الولاية"
+
+#: core/templates/core/map.html:306
+msgid "Dynamic Data Exploration"
+msgstr "استكشاف البيانات الديناميكي"
+
+#: core/templates/core/map.html:309
+msgid ""
+"Select your data, cross-reference information, and generate your own "
+"visualizations"
+msgstr "اختر بياناتك، وقم بمقارنة المعلومات، وأنشئ تصوراتك الخاصة"
+
+#: core/templates/core/map.html:315
+msgid "1. Choose your data source"
+msgstr "1. اختر مصدر بياناتك"
+
+#: core/templates/core/map.html:322
+#, fuzzy
+#| msgid "Loading..."
+msgid "Loading data sources..."
+msgstr "جاري تحميل مصادر البيانات..."
+
+#: core/templates/core/map.html:331
+msgid "X-axis (Dimension)"
+msgstr "المحور السيني (البعد)"
+
+#: core/templates/core/map.html:334 core/templates/core/map.html:343
+msgid "-- Select a source first --"
+msgstr "-- اختر مصدرًا أولاً --"
+
+#: core/templates/core/map.html:340
+msgid "Y-axis (Metric)"
+msgstr "المحور الصادي (المقياس)"
+
+#: core/templates/core/map.html:349
+msgid "Group by (Optional)"
+msgstr "تجميع حسب (اختياري)"
+
+#: core/templates/core/map.html:352
+msgid "-- No grouping --"
+msgstr "-- لا يوجد تجميع --"
+
+#: core/templates/core/map.html:358
+msgid "Filters (Optional)"
+msgstr "فلاتر (اختياري)"
+
+#: core/templates/core/map.html:360
+msgid "Advanced filters..."
+msgstr "فلاتر متقدمة..."
+
+#: core/templates/core/map.html:366
+msgid "2. Choose your visualization type"
+msgstr "2. اختر نوع التصور الخاص بك"
+
+#: core/templates/core/map.html:371
+msgid "Bar"
+msgstr "شريطي"
+
+#: core/templates/core/map.html:375
+msgid "Line"
+msgstr "خطي"
+
+#: core/templates/core/map.html:379
+#, fuzzy
+#| msgid "Profile"
+msgid "Pie"
+msgstr "رسم بياني دائري"
+
+#: core/templates/core/map.html:383
+msgid "Doughnut"
+msgstr "دائري مجوف"
+
+#: core/templates/core/map.html:387
+msgid "Table"
+msgstr "جدول"
+
+#: core/templates/core/map.html:392
+msgid "Generate Visualization"
+msgstr "إنشاء التصور"
+
+#: core/templates/core/map.html:399
+msgid "Exploration Result"
+msgstr "نتيجة الاستكشاف"
+
+#: core/templates/core/map.html:415
+#, fuzzy
+#| msgid "Loading..."
+msgid "Generating..."
+msgstr "جاري الإنشاء..."
+
+#: core/templates/core/map.html:527
+#, fuzzy
+#| msgid "Wetland Sites"
+msgid "Wetland"
+msgstr "أرض رطبة"
+
+#: core/templates/core/profile.html:4 core/templates/core/profile.html:10
+#, fuzzy
+#| msgid "Profile"
+msgid "User Profile"
+msgstr "الملف الشخصي"
+
+#: core/templates/core/profile.html:11
+msgid "Manage your account and preferences"
+msgstr "إدارة حسابك وتفضيلاتك"
+
+#: core/templates/core/profile.html:29
+msgid "Change Photo"
+msgstr "تغيير الصورة"
+
+#: core/templates/core/profile.html:35 core/templates/core/profile.html:62
+msgid "Profile Information"
+msgstr "معلومات الملف الشخصي"
+
+#: core/templates/core/profile.html:38 core/templates/core/profile.html:98
+msgid "Account Settings"
+msgstr "إعدادات الحساب"
+
+#: core/templates/core/profile.html:41 core/templates/core/profile.html:142
+msgid "Notifications"
+msgstr "الإشعارات"
+
+#: core/templates/core/profile.html:44
+msgid "Activity"
+msgstr "النشاط"
+
+#: core/templates/core/profile.html:68
+msgid "First Name"
+msgstr "الاسم الأول"
+
+#: core/templates/core/profile.html:72
+msgid "Last Name"
+msgstr "الاسم الأخير"
+
+#: core/templates/core/profile.html:77
+msgid "Email Address"
+msgstr "عنوان البريد الإلكتروني"
+
+#: core/templates/core/profile.html:81
+#: core/templates/core/wetland_site_detail.html:325
+msgid "Organization"
+msgstr "المنظمة"
+
+#: core/templates/core/profile.html:85
+msgid "Bio"
+msgstr "نبذة تعريفية"
+
+#: core/templates/core/profile.html:89
+msgid "Save Changes"
+msgstr "حفظ التغييرات"
+
+#: core/templates/core/profile.html:101
+msgid "Change Password"
+msgstr "تغيير كلمة المرور"
+
+#: core/templates/core/profile.html:104
+msgid "Current Password"
+msgstr "كلمة المرور الحالية"
+
+#: core/templates/core/profile.html:108
+msgid "New Password"
+msgstr "كلمة المرور الجديدة"
+
+#: core/templates/core/profile.html:112
+msgid "Confirm New Password"
+msgstr "تأكيد كلمة المرور الجديدة"
+
+#: core/templates/core/profile.html:116
+msgid "Update Password"
+msgstr "تحديث كلمة المرور"
+
+#: core/templates/core/profile.html:122
+msgid "Language Preferences"
+msgstr "تفضيلات اللغة"
+
+#: core/templates/core/profile.html:125
+msgid "Preferred Language"
+msgstr "اللغة المفضلة"
+
+#: core/templates/core/profile.html:127
+msgid "English"
+msgstr "الإنجليزية"
+
+#: core/templates/core/profile.html:128
+msgid "French"
+msgstr "الفرنسية"
+
+#: core/templates/core/profile.html:129
+msgid "Arabic"
+msgstr "العربية"
+
+#: core/templates/core/profile.html:133 core/templates/core/profile.html:179
+msgid "Save Preferences"
+msgstr "حفظ التفضيلات"
+
+#: core/templates/core/profile.html:149
+msgid "Email Notifications"
+msgstr "إشعارات البريد الإلكتروني"
+
+#: core/templates/core/profile.html:151
+msgid "Receive email notifications about updates and activities."
+msgstr "تلقي إشعارات البريد الإلكتروني حول التحديثات والأنشطة."
+
+#: core/templates/core/profile.html:157
+#, fuzzy
+#| msgid "Wetland Sites"
+msgid "Wetland Site Updates"
+msgstr "تحديثات مواقع الأراضي الرطبة"
+
+#: core/templates/core/profile.html:159
+msgid "Notifications about changes to wetland sites you follow."
+msgstr "إشعارات حول التغييرات في مواقع الأراضي الرطبة التي تتابعها."
+
+#: core/templates/core/profile.html:165
+#, fuzzy
+#| msgid "Species"
+msgid "Species Updates"
+msgstr "تحديثات الأنواع"
+
+#: core/templates/core/profile.html:167
+msgid "Notifications about changes to species data."
+msgstr "إشعارات حول التغييرات في بيانات الأنواع."
+
+#: core/templates/core/profile.html:173
+msgid "Newsletter"
+msgstr "النشرة الإخبارية"
+
+#: core/templates/core/profile.html:175
+msgid "Receive our monthly newsletter with updates and news."
+msgstr "تلقي نشرتنا الإخبارية الشهرية مع التحديثات والأخبار."
+
+#: core/templates/core/profile.html:188
+msgid "Recent Activity"
+msgstr "النشاط الأخير"
+
+#: core/templates/core/profile.html:192
+msgid ""
+"Your activity will be displayed here once you start interacting with the "
+"platform."
+msgstr "سيتم عرض نشاطك هنا بمجرد أن تبدأ في التفاعل مع المنصة."
+
+#: core/templates/core/profile.html:198
+msgid "Logged in"
+msgstr "تم تسجيل الدخول"
+
+#: core/templates/core/profile.html:199
+msgid "First login to the platform"
+msgstr "أول تسجيل دخول إلى المنصة"
+
+#: core/templates/core/profile.html:201
+msgid "Now"
+msgstr "الآن"
+
+#: core/templates/core/species_detail.html:341
+msgid "Sites"
+msgstr "المواقع"
+
+#: core/templates/core/species_detail.html:345
+msgid "Images"
+msgstr "الصور"
+
+#: core/templates/core/species_detail.html:389
+msgid "Species Information"
+msgstr "معلومات النوع"
+
+#: core/templates/core/species_detail.html:394
+#: core/templates/core/wetland_site_detail.html:135
+msgid "Scientific Name"
+msgstr "الاسم العلمي"
+
+#: core/templates/core/species_detail.html:400
+msgid "French Name"
+msgstr "الاسم الفرنسي"
+
+#: core/templates/core/species_detail.html:406
+msgid "Local Name"
+msgstr "الاسم المحلي"
+
+#: core/templates/core/species_detail.html:412
+msgid "Taxonomic Group"
+msgstr "المجموعة التصنيفية"
+
+#: core/templates/core/species_detail.html:420
+msgid "National Status"
+msgstr "الحالة الوطنية"
+
+#: core/templates/core/species_detail.html:429
+#: core/templates/core/wetland_site_detail.html:68
+msgid "Description"
+msgstr "الوصف"
+
+#: core/templates/core/species_detail.html:436
+msgid "Additional Notes"
+msgstr "ملاحظات إضافية"
+
+#: core/templates/core/species_detail.html:444
+msgid "Distribution & Habitat"
+msgstr "التوزيع والموئل"
+
+#: core/templates/core/species_detail.html:455
+#: core/templates/core/species_detail.html:639
+#: core/templates/core/wetland_site_detail.html:34
+msgid "Region"
+msgstr "المنطقة"
+
+#: core/templates/core/species_detail.html:455
+msgid "Unknown"
+msgstr "غير معروف"
+
+#: core/templates/core/species_detail.html:464
+#: core/templates/core/species_list.html:335
+msgid "View"
+msgstr "عرض"
+
+#: core/templates/core/species_detail.html:474
+#: core/templates/core/species_detail.html:641
+msgid "No distribution data available for this species."
+msgstr "لا توجد بيانات توزيع متاحة لهذا النوع."
+
+#: core/templates/core/species_detail.html:487
+#, fuzzy
+#| msgid "Conservation Guidelines"
+msgid "Conservation Status"
+msgstr "حالة الحفظ"
+
+#: core/templates/core/species_detail.html:492
+#: core/templates/core/species_detail.html:520
+msgid "Least Concern"
+msgstr "غير مهدد"
+
+#: core/templates/core/species_detail.html:496
+#: core/templates/core/species_detail.html:521
+msgid "Near Threatened"
+msgstr "قريب من التهديد"
+
+#: core/templates/core/species_detail.html:500
+#: core/templates/core/species_detail.html:522
+msgid "Vulnerable"
+msgstr "معرض للخطر"
+
+#: core/templates/core/species_detail.html:504
+#: core/templates/core/species_detail.html:523
+msgid "Endangered"
+msgstr "مهدد بالانقراض"
+
+#: core/templates/core/species_detail.html:508
+#: core/templates/core/species_detail.html:524
+msgid "Critically Endangered"
+msgstr "مهدد بالانقراض بشكل حرج"
+
+#: core/templates/core/species_detail.html:518
+msgid "IUCN Red List Category:"
+msgstr "فئة القائمة الحمراء للاتحاد الدولي لحفظ الطبيعة:"
+
+#: core/templates/core/species_detail.html:525
+msgid "Extinct in the Wild"
+msgstr "منقرض في البرية"
+
+#: core/templates/core/species_detail.html:526
+msgid "Extinct"
+msgstr "منقرض"
+
+#: core/templates/core/species_detail.html:527
+msgid "Data Deficient"
+msgstr "نقص البيانات"
+
+#: core/templates/core/species_detail.html:528
+msgid "Not Evaluated"
+msgstr "لم يتم تقييمه"
+
+#: core/templates/core/species_detail.html:538
+#, fuzzy
+#| msgid "Quick Links"
+msgid "Quick Stats"
+msgstr "إحصائيات سريعة"
+
+#: core/templates/core/species_detail.html:543
+msgid "Distribution Sites"
+msgstr "مواقع التوزيع"
+
+#: core/templates/core/species_detail.html:551
+msgid "Available Images"
+msgstr "الصور المتاحة"
+
+#: core/templates/core/species_detail.html:559
+msgid "Last Updated"
+msgstr "آخر تحديث"
+
+#: core/templates/core/species_detail.html:567
+#: core/templates/core/wetland_site_detail.html:339
+msgid "Actions"
+msgstr "إجراءات"
+
+#: core/templates/core/species_detail.html:571
+msgid "Print Species Info"
+msgstr "طباعة معلومات النوع"
+
+#: core/templates/core/species_detail.html:574
+#: core/templates/core/species_detail.html:609
+#, fuzzy
+#| msgid "Species"
+msgid "Share Species"
+msgstr "مشاركة النوع"
+
+#: core/templates/core/species_detail.html:577
+msgid "Back to Species List"
+msgstr "العودة إلى قائمة الأنواع"
+
+#: core/templates/core/species_detail.html:587
+msgid "Add Observation"
+msgstr "إضافة مشاهدة"
+
+#: core/templates/core/species_detail.html:613
+msgid "Share this species' information:"
+msgstr "شارك معلومات هذا النوع:"
+
+#: core/templates/core/species_detail.html:617
+#: core/templates/core/species_detail.html:637
+msgid "Copy"
+msgstr "نسخ"
+
+#: core/templates/core/species_detail.html:636
+msgid "Copied!"
+msgstr "تم النسخ!"
+
+#: core/templates/core/species_detail.html:638
+#: core/templates/core/wetland_sites.html:75
+msgid "View Details"
+msgstr "عرض التفاصيل"
+
+#: core/templates/core/species_detail.html:640
+#: core/templates/core/wetland_site_detail.html:368
+msgid "contributors"
+msgstr "مساهمون"
+
+#: core/templates/core/species_list.html:4
+#: core/templates/core/species_list.html:218
+#, fuzzy
+#| msgid "Species"
+msgid "Species Database"
+msgstr "قاعدة بيانات الأنواع"
+
+#: core/templates/core/species_list.html:219
+msgid "Explore the biodiversity of Mauritanian wetlands"
+msgstr "استكشف التنوع البيولوجي للأراضي الرطبة الموريتانية"
+
+#: core/templates/core/species_list.html:228
+msgid "Filter by Taxonomic Group"
+msgstr "التصفية حسب المجموعة التصنيفية"
+
+#: core/templates/core/species_list.html:230
+msgid "All Groups"
+msgstr "كل المجموعات"
+
+#: core/templates/core/species_list.html:237
+#: core/templates/core/species_list.html:241
+#: core/templates/core/wetland_sites.html:31
+#: core/templates/core/wetland_sites.html:35
+msgid "Search"
+msgstr "بحث"
+
+#: core/templates/core/species_list.html:239
+#: core/templates/core/wetland_sites.html:33
+msgid "Search by name..."
+msgstr "البحث بالاسم..."
+
+#: core/templates/core/species_list.html:240
+#, fuzzy
+#| msgid "Loading..."
+msgid "Searching..."
+msgstr "جاري البحث..."
+
+#: core/templates/core/species_list.html:247
+#: core/templates/core/wetland_sites.html:41
+msgid "Reset"
+msgstr "إعادة تعيين"
+
+#: core/templates/core/species_list.html:328
+#, python-format
+msgid ""
+"\n"
+"                                    %(count)s site\n"
+"                                    "
+msgid_plural ""
+"\n"
+"                                    %(count)s sites\n"
+"                                    "
+msgstr[0] "صفر موقع"
+msgstr[1] "موقع واحد"
+msgstr[2] "موقعان"
+msgstr[3] "%(count)s مواقع"
+msgstr[4] "%(count)s موقعاً"
+msgstr[5] "%(count)s موقع"
+
+#: core/templates/core/species_list.html:346
+msgid "No species found"
+msgstr "لم يتم العثور على أنواع"
+
+#: core/templates/core/species_list.html:347
+msgid "Try adjusting your search criteria or browse all species."
+msgstr "حاول تعديل معايير البحث الخاصة بك أو تصفح كل الأنواع."
+
+#: core/templates/core/species_list.html:349
+#: core/templates/core/wetland_site_detail.html:184
+#, fuzzy
+#| msgid "Species"
+msgid "View All Species"
+msgstr "عرض كل الأنواع"
+
+#: core/templates/core/species_list.html:356
+#: core/templates/core/wetland_sites.html:90
+#, fuzzy
+#| msgid "Toggle navigation"
+msgid "Page navigation"
+msgstr "التنقل بين الصفحات"
+
+#: core/templates/core/species_list.html:360
+#: core/templates/core/wetland_sites.html:94
+msgid "First"
+msgstr "الأول"
+
+#: core/templates/core/species_list.html:365
+#: core/templates/core/wetland_sites.html:99
+msgid "Previous"
+msgstr "السابق"
+
+#: core/templates/core/species_list.html:383
+#: core/templates/core/wetland_sites.html:117
+msgid "Next"
+msgstr "التالي"
+
+#: core/templates/core/species_list.html:388
+#: core/templates/core/wetland_sites.html:122
+msgid "Last"
+msgstr "الأخير"
+
+#: core/templates/core/species_list.html:403
+msgid "Explore species by taxonomic classification"
+msgstr "استكشف الأنواع حسب التصنيف التصنيفي"
+
+#: core/templates/core/species_list.html:428
+msgid "Species classified in this taxonomic group"
+msgstr "الأنواع المصنفة في هذه المجموعة التصنيفية"
+
+#: core/templates/core/species_list.html:431
+#, python-format
+msgid ""
+"\n"
+"                                %(count)s species\n"
+"                                "
+msgid_plural ""
+"\n"
+"                                %(count)s species\n"
+"                                "
+msgstr[0] "صفر نوع"
+msgstr[1] "نوع واحد"
+msgstr[2] "نوعان"
+msgstr[3] "%(count)s أنواع"
+msgstr[4] "%(count)s نوعاً"
+msgstr[5] "%(count)s نوع"
+
+#: core/templates/core/species_list.html:439
+#, fuzzy
+#| msgid "Species"
+msgid "View Species"
+msgstr "عرض النوع"
+
+#: core/templates/core/wetland_site_detail.html:24
+msgid "Overview"
+msgstr "نظرة عامة"
+
+#: core/templates/core/wetland_site_detail.html:29
+msgid "Basic Information"
+msgstr "معلومات أساسية"
+
+#: core/templates/core/wetland_site_detail.html:32
+msgid "Code"
+msgstr "الرمز"
+
+#: core/templates/core/wetland_site_detail.html:34
+#: core/templates/core/wetland_site_detail.html:35
+msgid "Not specified"
+msgstr "غير محدد"
+
+#: core/templates/core/wetland_site_detail.html:37
+msgid "Area"
+msgstr "المساحة"
+
+#: core/templates/core/wetland_site_detail.html:37
+msgid "hectares"
+msgstr "هكتار"
+
+#: core/templates/core/wetland_site_detail.html:40
+msgid "Designation Date"
+msgstr "تاريخ التصنيف"
+
+#: core/templates/core/wetland_site_detail.html:49
+msgid "Hydrology"
+msgstr "الهيدرولوجيا"
+
+#: core/templates/core/wetland_site_detail.html:53
+msgid "No hydrology information available."
+msgstr "لا تتوفر معلومات عن الهيدرولوجيا."
+
+#: core/templates/core/wetland_site_detail.html:57
+msgid "Climate"
+msgstr "المناخ"
+
+#: core/templates/core/wetland_site_detail.html:71
+msgid "Ecological Characteristics"
+msgstr "الخصائص البيئية"
+
+#: core/templates/core/wetland_site_detail.html:76
+msgid "Physical Characteristics"
+msgstr "الخصائص الفيزيائية"
+
+#: core/templates/core/wetland_site_detail.html:81
+msgid "Social and Cultural Values"
+msgstr "القيم الاجتماعية والثقافية"
+
+#: core/templates/core/wetland_site_detail.html:86
+msgid "No detailed description available for this site."
+msgstr "لا يوجد وصف مفصل متاح لهذا الموقع."
+
+#: core/templates/core/wetland_site_detail.html:94
+msgid "Land Use"
+msgstr "استخدام الأراضي"
+
+#: core/templates/core/wetland_site_detail.html:99
+msgid "Current Land Use"
+msgstr "الاستخدام الحالي للأراضي"
+
+#: core/templates/core/wetland_site_detail.html:103
+msgid "No information available on current land use."
+msgstr "لا تتوفر معلومات عن الاستخدام الحالي للأراضي."
+
+#: core/templates/core/wetland_site_detail.html:111
+msgid "Adjacent Land Use"
+msgstr "استخدام الأراضي المجاورة"
+
+#: core/templates/core/wetland_site_detail.html:115
+msgid "No information available on adjacent land use."
+msgstr "لا تتوفر معلومات عن استخدام الأراضي المجاورة."
+
+#: core/templates/core/wetland_site_detail.html:125
+msgid "Biodiversity"
+msgstr "التنوع البيولوجي"
+
+#: core/templates/core/wetland_site_detail.html:128
+msgid "Species Inventory"
+msgstr "جرد الأنواع"
+
+#: core/templates/core/wetland_site_detail.html:136
+msgid "Common Name"
+msgstr "الاسم الشائع"
+
+#: core/templates/core/wetland_site_detail.html:137
+msgid "Group"
+msgstr "المجموعة"
+
+#: core/templates/core/wetland_site_detail.html:138
+msgid "Status"
+msgstr "الحالة"
+
+#: core/templates/core/wetland_site_detail.html:188
+msgid "No species inventory available for this site."
+msgstr "لا يوجد جرد للأنواع متاح لهذا الموقع."
+
+#: core/templates/core/wetland_site_detail.html:196
+#, fuzzy
+#| msgid "for wetland conservation"
+msgid "Threats and Conservation"
+msgstr "التهديدات والحفظ"
+
+#: core/templates/core/wetland_site_detail.html:201
+msgid "Threats"
+msgstr "التهديدات"
+
+#: core/templates/core/wetland_site_detail.html:204
+#: core/templates/core/wetland_site_detail.html:227
+msgid "Anthropogenic Threats"
+msgstr "التهديدات البشرية"
+
+#: core/templates/core/wetland_site_detail.html:211
+msgid "No anthropogenic threats recorded."
+msgstr "لم يتم تسجيل أي تهديدات بشرية."
+
+#: core/templates/core/wetland_site_detail.html:215
+#: core/templates/core/wetland_site_detail.html:232
+msgid "Natural Threats"
+msgstr "التهديدات الطبيعية"
+
+#: core/templates/core/wetland_site_detail.html:222
+msgid "No natural threats recorded."
+msgstr "لم يتم تسجيل أي تهديدات طبيعية."
+
+#: core/templates/core/wetland_site_detail.html:237
+msgid "No threat information available."
+msgstr "لا تتوفر معلومات عن التهديدات."
+
+#: core/templates/core/wetland_site_detail.html:246
+#, fuzzy
+#| msgid "Conservation Guidelines"
+msgid "Conservation Measures"
+msgstr "إجراءات الحفظ"
+
+#: core/templates/core/wetland_site_detail.html:249
+msgid "Implemented Measures"
+msgstr "الإجراءات المنفذة"
+
+#: core/templates/core/wetland_site_detail.html:256
+msgid "No implemented measures recorded."
+msgstr "لم يتم تسجيل أي إجراءات منفذة."
+
+#: core/templates/core/wetland_site_detail.html:260
+#: core/templates/core/wetland_site_detail.html:277
+msgid "Proposed Measures"
+msgstr "الإجراءات المقترحة"
+
+#: core/templates/core/wetland_site_detail.html:267
+msgid "No proposed measures recorded."
+msgstr "لم يتم تسجيل أي إجراءات مقترحة."
+
+#: core/templates/core/wetland_site_detail.html:272
+msgid "Measures Taken"
+msgstr "الإجراءات المتخذة"
+
+#: core/templates/core/wetland_site_detail.html:282
+msgid "No conservation measure information available."
+msgstr "لا تتوفر معلومات عن إجراءات الحفظ."
+
+#: core/templates/core/wetland_site_detail.html:294
+msgid "Contact Information"
+msgstr "معلومات الاتصال"
+
+#: core/templates/core/wetland_site_detail.html:297
+#, fuzzy
+#| msgid "Contact Us"
+msgid "Contacts"
+msgstr "جهات الاتصال"
+
+#: core/templates/core/wetland_site_detail.html:310
+#, fuzzy
+#| msgid "Documentation"
+msgid "Location"
+msgstr "الموقع"
+
+#: core/templates/core/wetland_site_detail.html:318
+#, fuzzy
+#| msgid "Data Sources"
+msgid "Data Source"
+msgstr "مصدر البيانات"
+
+#: core/templates/core/wetland_site_detail.html:322
+msgid "Type"
+msgstr "النوع"
+
+#: core/templates/core/wetland_site_detail.html:328
+msgid "Citation"
+msgstr "المرجع"
+
+#: core/templates/core/wetland_site_detail.html:331
+msgid "No data source information available."
+msgstr "لا تتوفر معلومات عن مصدر البيانات."
+
+#: core/templates/core/wetland_site_detail.html:342
+msgid "Back to Sites"
+msgstr "العودة إلى المواقع"
+
+#: core/templates/core/wetland_site_detail.html:345
+msgid "View on Map"
+msgstr "عرض على الخريطة"
+
+#: core/templates/core/wetland_site_detail.html:349
+msgid "Edit in Admin"
+msgstr "تعديل في لوحة الإدارة"
+
+#: core/templates/core/wetland_sites.html:11
+msgid "Explore Mauritania's diverse wetland ecosystems"
+msgstr "استكشف النظم البيئية المتنوعة للأراضي الرطبة في موريتانيا"
+
+#: core/templates/core/wetland_sites.html:20
+msgid "Filter by Region"
+msgstr "التصفية حسب المنطقة"
+
+#: core/templates/core/wetland_sites.html:22
+msgid "All Regions"
+msgstr "كل المناطق"
+
+#: core/templates/core/wetland_sites.html:72
+msgid "A significant wetland site in Mauritania with important ecological value."
+msgstr "موقع أرض رطبة مهم في موريتانيا ذو قيمة بيئية هامة."
+
+#: core/templates/core/wetland_sites.html:82
+#, fuzzy
+#| msgid "Wetland Sites"
+msgid "No wetland sites found"
+msgstr "لم يتم العثور على مواقع أراضٍ رطبة"
+
+#: core/templates/core/wetland_sites.html:83
+msgid "Try adjusting your search criteria or browse all sites."
+msgstr "حاول تعديل معايير البحث الخاصة بك أو تصفح كل المواقع."
+
+#: core/templates/core/wetland_sites.html:135
+#, fuzzy
+#| msgid "Wetland Sites"
+msgid "Wetland Sites Map"
+msgstr "خريطة مواقع الأراضي الرطبة"
+
+#: core/templates/core/wetland_sites.html:136
+msgid "View the geographical distribution of wetland sites"
+msgstr "عرض التوزيع الجغرافي لمواقع الأراضي الرطبة"
+
+#: core/templates/core/wetland_sites.html:144
+msgid "Open Full Map"
+msgstr "فتح الخريطة الكاملة"

@@ -1,0 +1,760 @@
+{% extends 'core/base.html' %}
+{% load static i18n %}
+
+{% block title %}{{ species.scientific_name|default:species.common_name_fr }} - MauriZHAP{% endblock %}
+
+{% block extra_css %}
+<style>
+    .species-hero {
+        background: linear-gradient(135deg, #11860f 0%, #a4d7b2 100%);
+        color: white;
+        padding: 4rem 0;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .species-hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" fill="rgba(255,255,255,0.1)"><polygon points="1000,100 1000,0 0,100"/></svg>');
+        background-size: cover;
+    }
+    
+    .species-hero-content {
+        position: relative;
+        z-index: 2;
+    }
+    
+    .image-gallery-container {
+        background: white;
+        border-radius: 20px;
+        padding: 2rem;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        margin-top: -3rem;
+        position: relative;
+        z-index: 3;
+    }
+    
+    .main-image {
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        position: relative;
+    }
+    
+    .main-image img {
+        width: 100%;
+        height: 400px;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+    
+    .main-image:hover img {
+        transform: scale(1.05);
+    }
+    
+    .image-counter {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: rgba(0,0,0,0.7);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.9rem;
+    }
+    
+    .thumbnail-gallery {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+        overflow-x: auto;
+        padding: 0.5rem 0;
+    }
+    
+    .thumbnail {
+        flex-shrink: 0;
+        width: 80px;
+        height: 80px;
+        border-radius: 10px;
+        overflow: hidden;
+        cursor: pointer;
+        border: 3px solid transparent;
+        transition: all 0.3s ease;
+    }
+    
+    .thumbnail:hover,
+    .thumbnail.active {
+        border-color: #3498db;
+        transform: scale(1.05);
+    }
+    
+    .thumbnail img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    .species-info-card {
+        background: white;
+        border-radius: 20px;
+        padding: 2rem;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        margin-bottom: 2rem;
+    }
+    
+    .info-table {
+        border: none;
+    }
+    
+    .info-table th {
+        background: #f8f9fa;
+        border: none;
+        font-weight: 600;
+        color: #2c3e50;
+        padding: 1rem;
+        border-radius: 10px 0 0 10px;
+    }
+    
+    .info-table td {
+        border: none;
+        padding: 1rem;
+        border-radius: 0 10px 10px 0;
+    }
+    
+    .info-table tr {
+        margin-bottom: 0.5rem;
+    }
+    
+    .status-indicator {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        border-radius: 25px;
+        font-weight: 600;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .status-indicator::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        transition: left 0.5s;
+    }
+    
+    .status-indicator:hover::before {
+        left: 100%;
+    }
+    
+    .conservation-progress {
+        background: #ecf0f1;
+        border-radius: 10px;
+        overflow: hidden;
+        height: 40px;
+        position: relative;
+        margin: 1rem 0;
+    }
+    
+    .conservation-level {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: 600;
+        font-size: 0.9rem;
+        position: relative;
+        transition: all 0.3s ease;
+    }
+    
+    .distribution-map {
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
+    
+    .site-card {
+        background: white;
+        border-radius: 15px;
+        padding: 1.5rem;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        border-left: 4px solid #3498db;
+    }
+    
+    .site-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+    }
+    
+    .site-stats {
+        display: flex;
+        gap: 2rem;
+        margin-top: 1rem;
+    }
+    
+    .stat-item {
+        text-align: center;
+    }
+    
+    .stat-number {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #3498db;
+        display: block;
+    }
+    
+    .stat-label {
+        font-size: 0.9rem;
+        color: #7f8c8d;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .action-buttons {
+        display: flex;
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+    
+    .btn-gradient {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        color: white;
+        padding: 0.75rem 2rem;
+        border-radius: 25px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .btn-gradient:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        color: white;
+    }
+    
+    .btn-gradient::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        transition: left 0.5s;
+    }
+    
+    .btn-gradient:hover::before {
+        left: 100%;
+    }
+    
+    .floating-action {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        z-index: 1000;
+    }
+    
+    .floating-btn {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        color: white;
+        font-size: 1.5rem;
+        box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        transition: all 0.3s ease;
+    }
+    
+    .floating-btn:hover {
+        transform: scale(1.1);
+        color: white;
+    }
+    
+    .image-modal .modal-dialog {
+        max-width: 90vw;
+    }
+    
+    .image-modal .modal-content {
+        background: transparent;
+        border: none;
+    }
+    
+    .image-modal img {
+        width: 100%;
+        height: auto;
+        border-radius: 10px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Section Héro de l'Espèce -->
+<section class="species-hero">
+    <div class="container species-hero-content">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <h1 class="display-4 fw-bold mb-3" data-aos="fade-up">
+                    {% if species.common_name_fr %}
+                        {{ species.common_name_fr }}
+                    {% elif species.common_name_local %}
+                        {{ species.common_name_local }}
+                    {% else %}
+                        {{ species.scientific_name }}
+                    {% endif %}
+                </h1>
+                {% if species.scientific_name %}
+                    <p class="lead mb-3" data-aos="fade-up" data-aos-delay="200">
+                        <em>{{ species.scientific_name }}</em>
+                    </p>
+                {% endif %}
+                <div class="d-flex flex-wrap gap-2" data-aos="fade-up" data-aos-delay="400">
+                    {% if species.taxonomic_group %}
+                        <span class="badge bg-light text-dark px-3 py-2 rounded-pill">
+                            <i class="fas fa-tag me-1"></i> {{ species.taxonomic_group.name }}
+                        </span>
+                    {% endif %}
+                    {% if species.iucn_status %}
+                        <span class="badge {% if species.iucn_status == 'LC' %}bg-success{% elif species.iucn_status == 'NT' %}bg-info{% elif species.iucn_status == 'VU' %}bg-warning{% elif species.iucn_status == 'EN' or species.iucn_status == 'CR' %}bg-danger{% else %}bg-secondary{% endif %} px-3 py-2 rounded-pill">
+                            <i class="fas fa-shield-alt me-1"></i> {{ species.iucn_status }}
+                        </span>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-lg-4 text-center" data-aos="fade-left" data-aos-delay="600">
+                <div class="site-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">{{ species.wetland_sites.count }}</span>
+                        <span class="stat-label">{% trans "Sites" %}</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">{{ species.images.count }}</span>
+                        <span class="stat-label">{% trans "Images" %}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Section Galerie d'Images -->
+{% if species.images.exists %}
+<section class="container">
+    <div class="image-gallery-container" data-aos="fade-up">
+        <div class="main-image" id="mainImageContainer">
+            <img src="{{ species.images.first.image.url }}" alt="{{ species.scientific_name }}" id="mainImage">
+            {% if species.images.count > 1 %}
+                <div class="image-counter">
+                    <span id="currentImageIndex">1</span> / {{ species.images.count }}
+                </div>
+            {% endif %}
+        </div>
+        
+        {% if species.images.count > 1 %}
+            <div class="thumbnail-gallery">
+                {% for image in species.images.all %}
+                    <div class="thumbnail {% if forloop.first %}active{% endif %}" 
+                         data-image="{{ image.image.url }}" 
+                         data-caption="{{ image.caption|default:species.scientific_name }}"
+                         data-index="{{ forloop.counter }}">
+                        <img src="{{ image.image.url }}" alt="{{ image.caption|default:species.scientific_name }}">
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endif %}
+
+<!-- Informations sur l'Espèce -->
+<section class="container section-padding">
+    <div class="row">
+        <!-- Contenu Principal -->
+        <div class="col-lg-8 mb-4 mb-lg-0">
+            <!-- Informations de Base -->
+            <div class="species-info-card" data-aos="fade-up">
+                <h2 class="mb-4"><i class="fas fa-info-circle text-primary me-2"></i> {% trans "Species Information" %}</h2>
+                <table class="table info-table">
+                    <tbody>
+                        {% if species.scientific_name %}
+                            <tr>
+                                <th scope="row" style="width: 30%;">{% trans "Scientific Name" %}</th>
+                                <td><em>{{ species.scientific_name }}</em></td>
+                            </tr>
+                        {% endif %}
+                        {% if species.common_name_fr %}
+                            <tr>
+                                <th scope="row">{% trans "French Name" %}</th>
+                                <td>{{ species.common_name_fr }}</td>
+                            </tr>
+                        {% endif %}
+                        {% if species.common_name_local %}
+                            <tr>
+                                <th scope="row">{% trans "Local Name" %}</th>
+                                <td>{{ species.common_name_local }}</td>
+                            </tr>
+                        {% endif %}
+                        {% if species.taxonomic_group %}
+                            <tr>
+                                <th scope="row">{% trans "Taxonomic Group" %}</th>
+                                <td>
+                                    <span class="badge bg-primary">{{ species.taxonomic_group.name }}</span>
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if species.national_status %}
+                            <tr>
+                                <th scope="row">{% trans "National Status" %}</th>
+                                <td>{{ species.national_status }}</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+                
+                {% if species.description %}
+                    <div class="mt-4">
+                        <h5><i class="fas fa-file-alt text-primary me-2"></i> {% trans "Description" %}</h5>
+                        <p class="text-muted">{{ species.description }}</p>
+                    </div>
+                {% endif %}
+                
+                {% if species.notes %}
+                    <div class="mt-4">
+                        <h5><i class="fas fa-sticky-note text-primary me-2"></i> {% trans "Additional Notes" %}</h5>
+                        <p class="text-muted">{{ species.notes }}</p>
+                    </div>
+                {% endif %}
+            </div>
+            
+            <!-- Distribution -->
+            <div class="species-info-card" data-aos="fade-up" data-aos-delay="200">
+                <h2 class="mb-4"><i class="fas fa-map-marked-alt text-primary me-2"></i> {% trans "Distribution & Habitat" %}</h2>
+                
+                {% if sites %}
+                    <div class="row">
+                        {% for site in sites %}
+                            <div class="col-md-6 mb-3">
+                                <div class="site-card">
+                                    <h6 class="mb-2">{{ site.name }}</h6>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <small class="text-muted">
+                                                <i class="fas fa-map-marker-alt me-1"></i> {% trans "Region" %}: {{ site.region|default:_("Unknown") }}
+                                            </small>
+                                            {% if site.is_ramsar_site %}
+                                                <div class="mt-1">
+                                                    <span class="badge bg-success">{% trans "Ramsar Site" %}</span>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                        <a href="{% url 'wetland_site_detail' site.id %}" class="btn btn-sm btn-outline-primary">
+                                            <i class="fas fa-eye"></i> {% trans "View" %}
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="text-center py-4">
+                        <i class="fas fa-map-marked-alt fa-3x text-muted mb-3"></i>
+                        <p class="text-muted">{% trans "No distribution data available for this species." %}</p>
+                    </div>
+                {% endif %}
+                
+                <div id="distribution-map" class="distribution-map mt-4" style="height: 400px;"></div>
+            </div>
+        </div>
+        
+        <!-- Barre Latérale -->
+        <div class="col-lg-4">
+            <!-- Statut de Conservation -->
+            {% if species.iucn_status %}
+                <div class="species-info-card" data-aos="fade-up">
+                    <h5 class="mb-3"><i class="fas fa-shield-alt text-primary me-2"></i> {% trans "Conservation Status" %}</h5>
+                    
+                    <div class="conservation-progress">
+                        {% if species.iucn_status == 'LC' %}
+                            <div class="conservation-level bg-success" style="width: 14.3%;">
+                                {% trans "Least Concern" %}
+                            </div>
+                        {% elif species.iucn_status == 'NT' %}
+                            <div class="conservation-level bg-info" style="width: 28.6%;">
+                                {% trans "Near Threatened" %}
+                            </div>
+                        {% elif species.iucn_status == 'VU' %}
+                            <div class="conservation-level bg-warning" style="width: 42.9%;">
+                                {% trans "Vulnerable" %}
+                            </div>
+                        {% elif species.iucn_status == 'EN' %}
+                            <div class="conservation-level bg-danger" style="width: 57.2%;">
+                                {% trans "Endangered" %}
+                            </div>
+                        {% elif species.iucn_status == 'CR' %}
+                            <div class="conservation-level bg-danger" style="width: 71.5%;">
+                                {% trans "Critically Endangered" %}
+                            </div>
+                        {% else %}
+                            <div class="conservation-level bg-secondary" style="width: 100%;">
+                                {{ species.iucn_status }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <small class="text-muted">
+                        {% trans "IUCN Red List Category:" %}
+                        <strong>
+                            {% if species.iucn_status == 'LC' %}{% trans "Least Concern" %}
+                            {% elif species.iucn_status == 'NT' %}{% trans "Near Threatened" %}
+                            {% elif species.iucn_status == 'VU' %}{% trans "Vulnerable" %}
+                            {% elif species.iucn_status == 'EN' %}{% trans "Endangered" %}
+                            {% elif species.iucn_status == 'CR' %}{% trans "Critically Endangered" %}
+                            {% elif species.iucn_status == 'EW' %}{% trans "Extinct in the Wild" %}
+                            {% elif species.iucn_status == 'EX' %}{% trans "Extinct" %}
+                            {% elif species.iucn_status == 'DD' %}{% trans "Data Deficient" %}
+                            {% elif species.iucn_status == 'NE' %}{% trans "Not Evaluated" %}
+                            {% else %}{{ species.iucn_status }}
+                            {% endif %}
+                        </strong>
+                    </small>
+                </div>
+            {% endif %}
+            
+            <!-- Statistiques Rapides -->
+            <div class="species-info-card" data-aos="fade-up" data-aos-delay="200">
+                <h5 class="mb-3"><i class="fas fa-chart-bar text-primary me-2"></i> {% trans "Quick Stats" %}</h5>
+                
+                <div class="d-flex justify-content-between align-items-center mb-3 p-3 bg-light rounded">
+                    <div>
+                        <i class="fas fa-map-marker-alt text-primary me-2"></i>
+                        <strong>{% trans "Distribution Sites" %}</strong>
+                    </div>
+                    <span class="badge bg-primary">{{ sites.count }}</span>
+                </div>
+                
+                <div class="d-flex justify-content-between align-items-center mb-3 p-3 bg-light rounded">
+                    <div>
+                        <i class="fas fa-images text-primary me-2"></i>
+                        <strong>{% trans "Available Images" %}</strong>
+                    </div>
+                    <span class="badge bg-primary">{{ species.images.count }}</span>
+                </div>
+                
+                <div class="d-flex justify-content-between align-items-center p-3 bg-light rounded">
+                    <div>
+                        <i class="fas fa-calendar text-primary me-2"></i>
+                        <strong>{% trans "Last Updated" %}</strong>
+                    </div>
+                    <small class="text-muted">{{ species.updated_at|date:"M d, Y" }}</small>
+                </div>
+            </div>
+            
+            <!-- Actions -->
+            <div class="species-info-card" data-aos="fade-up" data-aos-delay="400">
+                <h5 class="mb-3"><i class="fas fa-tools text-primary me-2"></i> {% trans "Actions" %}</h5>
+                
+                <div class="d-grid gap-2">
+                    <button class="btn btn-gradient" onclick="window.print()">
+                        <i class="fas fa-print me-2"></i> {% trans "Print Species Info" %}
+                    </button>
+                    <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#shareModal">
+                        <i class="fas fa-share-alt me-2"></i> {% trans "Share Species" %}
+                    </button>
+                    <a href="{% url 'species_list' %}" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left me-2"></i> {% trans "Back to Species List" %}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Bouton d'Action Flottant -->
+<div class="floating-action">
+    <button class="floating-btn" data-bs-toggle="tooltip" data-bs-placement="left" title="{% trans 'Add Observation' %}">
+        <i class="fas fa-plus"></i>
+    </button>
+</div>
+
+<!-- Modale d'Image -->
+<div class="modal fade image-modal" id="imageModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body p-0">
+                <img src="" alt="" id="modalImage" class="img-fluid">
+                <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3" data-bs-dismiss="modal"></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modale de Partage -->
+<div class="modal fade" id="shareModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{% trans "Share Species" %}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>{% trans "Share this species' information:" %}</p>
+                <div class="input-group">
+                    <input type="text" class="form-control" value="{{ request.build_absolute_uri }}" readonly id="shareUrl">
+                    <button class="btn btn-primary" onclick="copyToClipboard()">
+                        <i class="fas fa-copy"></i> {% trans "Copy" %}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
+
+<script>
+    // Translated strings for JavaScript
+    const i18n = {
+        copied: "{% trans 'Copied!' %}",
+        copy: "{% trans 'Copy' %}",
+        viewDetails: "{% trans 'View Details' %}",
+        region: "{% trans 'Region' %}",
+        mapAttribution: "&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> {% trans 'contributors' %}",
+        noData: "{% trans 'No distribution data available for this species.' %}"
+    };
+
+    // Fonctionnalité de la galerie d'images
+    document.addEventListener('DOMContentLoaded', function() {
+        const thumbnails = document.querySelectorAll('.thumbnail');
+        const mainImage = document.getElementById('mainImage');
+        const currentImageIndex = document.getElementById('currentImageIndex');
+        
+        thumbnails.forEach((thumbnail, index) => {
+            thumbnail.addEventListener('click', function() {
+                // Supprimer la classe active de toutes les miniatures
+                thumbnails.forEach(t => t.classList.remove('active'));
+                
+                // Ajouter la classe active à la miniature cliquée
+                this.classList.add('active');
+                
+                // Mettre à jour l'image principale
+                const newImageSrc = this.dataset.image;
+                mainImage.src = newImageSrc;
+                
+                // Mettre à jour le compteur
+                if (currentImageIndex) {
+                    currentImageIndex.textContent = this.dataset.index;
+                }
+            });
+        });
+        
+        // Fonctionnalité de clic pour zoomer
+        if (mainImage) {
+            mainImage.addEventListener('click', function() {
+                document.getElementById('modalImage').src = this.src;
+                new bootstrap.Modal(document.getElementById('imageModal')).show();
+            });
+        }
+        
+        // Initialiser les info-bulles
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+
+        // Initialisation de la carte Leaflet
+        const mapElement = document.getElementById('distribution-map');
+        if (mapElement) {
+            const sitesGeoJSON = JSON.parse('{{ sites_geojson|escapejs }}');
+            
+            if (sitesGeoJSON.length > 0) {
+                const map = L.map('distribution-map').setView([0, 0], 2); // Vue par défaut
+
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: i18n.mapAttribution
+                }).addTo(map);
+
+                const markers = L.markerClusterGroup();
+
+                sitesGeoJSON.forEach(function(site) {
+                    if (site.geometry && site.geometry.coordinates) {
+                        const lat = site.geometry.coordinates[1];
+                        const lng = site.geometry.coordinates[0];
+                        const marker = L.marker([lat, lng]);
+                        marker.bindPopup(`<b>${site.properties.name}</b><br>${i18n.region}: ${site.properties.region}<br><a href="/wetland_sites/${site.properties.id}">${i18n.viewDetails}</a>`);
+                        markers.addLayer(marker);
+                    }
+                });
+
+                map.addLayer(markers);
+
+                // Ajuster la carte aux limites des marqueurs
+                if (markers.getLayers().length > 0) {
+                    map.fitBounds(markers.getBounds());
+                } else {
+                    // Vue par défaut si aucune géométrie valide
+                    map.setView([20.5, -10.5], 6); // Centre de la Mauritanie
+                }
+            } else {
+                mapElement.innerHTML = `<div class="text-center py-4"><i class="fas fa-map-marked-alt fa-3x text-muted mb-3"></i><p class="text-muted">${i18n.noData}</p></div>`;
+            }
+        }
+    });
+    
+    // Fonction de copie dans le presse-papiers
+    function copyToClipboard() {
+        const shareUrl = document.getElementById('shareUrl');
+        shareUrl.select();
+        shareUrl.setSelectionRange(0, 99999);
+        document.execCommand('copy');
+        
+        // Afficher le feedback
+        const copyBtn = event.target.closest('button');
+        const originalIcon = copyBtn.querySelector('i').outerHTML;
+        const originalText = copyBtn.innerText.trim();
+        copyBtn.innerHTML = `<i class="fas fa-check"></i> ${i18n.copied}`;
+        copyBtn.classList.add('btn-success');
+        copyBtn.classList.remove('btn-primary');
+        
+        setTimeout(() => {
+            copyBtn.innerHTML = `${originalIcon} ${i18n.copy}`;
+            copyBtn.classList.remove('btn-success');
+            copyBtn.classList.add('btn-primary');
+        }, 2000);
+    }
+    
+    // Navigation au clavier pour la galerie d'images
+    document.addEventListener('keydown', function(e) {
+        const thumbnails = document.querySelectorAll('.thumbnail');
+        const activeThumbnail = document.querySelector('.thumbnail.active');
+        
+        if (!activeThumbnail || thumbnails.length <= 1) return;
+        
+        let currentIndex = Array.from(thumbnails).indexOf(activeThumbnail);
+        
+        if (e.key === 'ArrowLeft' && currentIndex > 0) {
+            thumbnails[currentIndex - 1].click();
+        } else if (e.key === 'ArrowRight' && currentIndex < thumbnails.length - 1) {
+            thumbnails[currentIndex + 1].click();
+        }
+    });
+</script>
+{% endblock %}
